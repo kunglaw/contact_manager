@@ -1,0 +1,3 @@
+<?php
+
+	define("DEV_NAME","ARIES DIMAS YUDHISTIRA");

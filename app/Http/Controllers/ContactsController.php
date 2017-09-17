@@ -26,21 +26,23 @@ class ContactsController extends Controller
     public function index(Request $request) // jangan lupa request
     {
         //
-		
+	
 		// print_r($this->objContact->dummy2()); exit;
 		
 		$group_id = $request->get("group_id");
 		if(!empty($group_id))
 		{
 			
-			$contact_list = $this->objContact->where("group_id",$group_id)->paginate(10);// mau pakai object 
+			$contact_list = $this->objContact->orderBy("id","desc")->where("group_id",$group_id)->paginate(10);// mau pakai object 
 			$data["contact_list"] = $contact_list;
+			
+			//print_r($contact_list); exit;
 			
 		}
 		else
 		{
 			// atau mau pakai static method
-			$data["contact_list"] = Contact::paginate(10);
+			$data["contact_list"] = Contact::orderBy("id","desc")->paginate(10);
 		}
 				
 		//var_dump($data);
@@ -60,20 +62,20 @@ class ContactsController extends Controller
 		
 		return view("contacts.form",$data);
     }
-
-    /**
+	 
+	function acho(Request $request)
+	{
+		
+		//print_r($request);
+	}
+   
+   /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-	 
-  function acho(Request $request)
-  {
-	  
-	  //print_r($request);
-  }
-   	
+   
    public function store(Request $request)
     {
         //
@@ -91,12 +93,18 @@ class ContactsController extends Controller
 		//print_r($rules);
 		//print_r($a);  exit;
 		//Contact::create( $request->all());
+		/*
+			array(
+				"nama_field_table" => value,
+				"nama_field_table" => value,
+				"nama_field_table" => value,
+			)
 		
+		*/
 		$this->objContact->fill($request->all());
 		$this->objContact->save();
-		exit();
-		
-		return redirect("contacts")->with("Message","Contact Saved");
+										// session 
+		return redirect("contacts")->with("message","Contact Saved");
     }
 
 
@@ -121,6 +129,9 @@ class ContactsController extends Controller
     public function edit($id)
     {
         //
+		$data["contact"] = $this->objContact->find($id);
+		
+		return view("contacts.edit",$data);
     }
 
     /**

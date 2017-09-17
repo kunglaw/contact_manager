@@ -1,7 +1,13 @@
 @extends('layouts.main') <?php //blade path nya bisa pakai titik ?>
 
 @section("content")
-
+<?php
+  	if(!empty(session("message")))
+	{
+		echo "<div class='alert alert-success'> ".session("message")." </div>";
+	}
+  
+  ?>
 <div class="panel panel-default">
   
   <table class="table">
@@ -27,10 +33,10 @@
       </td>
       <td width="100" class="middle">
         <div>
-          <a href="#" class="btn btn-circle btn-default btn-xs" title="Edit">
+          <a href="<?=route("contacts.edit",["id"=>$row["id"]])?>" class="btn btn-circle btn-default btn-xs" title="Edit">
             <i class="glyphicon glyphicon-edit"></i>
           </a>
-          <a href="#" class="btn btn-circle btn-danger btn-xs" title="Edit">
+          <a href="#" class="btn btn-circle btn-danger btn-xs" title="Delete">
             <i class="glyphicon glyphicon-remove"></i>
           </a>
         </div>

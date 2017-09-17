@@ -5,9 +5,22 @@
 <div class="panel panel-default">
             <div class="panel-heading">
               <strong>Add Contact</strong>
-            </div>           
-            <div class="panel-body">
+            </div>    
+            {!!  Form::open(["url"=>"contacts"]) !!}   
+                        <div class="panel-body">
               <div class="form-horizontal">
+              	<?php 
+					if(!empty(count($errors)))
+					{
+						echo "<div class='alert alert-danger'><ul>";
+						foreach($errors->all() as $err)
+						{
+							echo "<li> $err </li>";	
+						}
+						echo "</ul></div>";
+					}
+				?>    
+				
                 <div class="row">
                   <div class="col-md-8">
                     <div class="form-group">
@@ -44,15 +57,14 @@
                         <textarea name="address" id="address" rows="3" class="form-control"></textarea>
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group"> 
                       <label for="group" class="control-label col-md-3">Group</label>
                       <div class="col-md-5">
-                        <select name="group" id="group" class="form-control">
-                          <option value="">Select group</option>
-                          <option value="1">Family</option>
-                          <option value="2">Friend</option>
-                          <option value="3">Other</option>
-                        </select>
+                      	<?php 
+							//$a = App\Models\Group::pluck("name","id");
+							//print_r($a);
+						?>
+                        {!! Form::select("group_id",App\Models\Group::pluck("name","id"),null,["class"=>"form-control"]) !!}
                       </div>
                       <div class="col-md-3">
                         <a href="#" id="add-group-btn" class="btn btn-default btn-block">Add Group</a>
@@ -76,10 +88,10 @@
                       <div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">
                         <img src="http://placehold.it/150x150" alt="Photo">
                       </div>
-                      <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
-                      <div class="text-center">
-                        <span class="fileinput-new">Choose Photo</span><span class="fileinput-exists">Change</span><input type="file" name="...">
-                        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                      
+                      <!-- <div class="text-center">
+                      Change</span><input type="file" name="...">
+                        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> -->
                       </div>
                     </div>
                   </div>
@@ -98,6 +110,7 @@
                 </div>
               </div>
             </div>
+            {!! Form::close() !!}
           </div>
 
 @endsection

@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB; // jangan lupa load database library
+
+use App\Libraries\Converter;
 
 class Group extends Model
 {
@@ -12,7 +15,14 @@ class Group extends Model
 	
 	function __construct()
 	{
-		
+		$this->c = new Converter;
+	}
+	
+	function all_group()
+	{
+		$arr = DB::select("SELECT * FROM groups");
+		$result = $this->c->result_array($arr);
+		return $result;	
 	}
 	
 	function contacts()

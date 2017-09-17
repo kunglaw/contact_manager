@@ -10,10 +10,7 @@
 		
 		function __construct()
 		{
-			
-			
-			
-			
+				
 		}
 		
 		function autoload()

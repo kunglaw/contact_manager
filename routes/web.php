@@ -11,11 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',"HomeController@index"); // route default
 
-Route::resource('test',"TestController");
+// route / user menjalankan controller UserControllers function index
+// Route::get('/user', 'UsersController@index');
 
+Route::post("contacts/acho","ContactsController@acho");
+
+// resource untuk 1 paket
+Route::get("test/list_contact","TestController@list_contact"); // karena gak masuk kedalam list resource
+Route::get("test/form","TestController@form");
+
+Route::resource('test',"TestController"); // HARUS DIBAWAH 
+Route::resource("home","HomeController");
 Route::resource("contacts","ContactsController");
 

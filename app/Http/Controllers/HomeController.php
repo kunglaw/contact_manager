@@ -6,16 +6,23 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    //
-	function __construct()
-	{
-		
-	}
-	
-	function index()
-	{
-		echo "<h1> Welcome Contact Manager </h1>";
-		//view();
-	}
-	
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('home');
+    }
 }

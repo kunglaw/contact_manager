@@ -6,7 +6,7 @@
             <div class="panel-heading">
               <strong>Add Contact</strong>
             </div>    
-            {!!  Form::open(["url"=>"contacts"]) !!}   
+            {!!  Form::open(["url"=>"contacts","files"=>true ]) !!}   
                         <div class="panel-body">
               <div class="form-horizontal">
               	<?php 
@@ -88,10 +88,7 @@
                       <div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">
                         <img src="http://placehold.it/150x150" alt="Photo">
                       </div>
-                      
-                      <!-- <div class="text-center">
-                      Change</span><input type="file" name="...">
-                        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> -->
+                      	<input type="file" name="photo">
                       </div>
                     </div>
                   </div>

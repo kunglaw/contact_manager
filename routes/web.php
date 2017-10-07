@@ -26,3 +26,10 @@ Route::resource('test',"TestController"); // HARUS DIBAWAH
 Route::resource("home","HomeController");
 Route::resource("contacts","ContactsController");
 
+Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

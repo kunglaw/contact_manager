@@ -17,10 +17,14 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+		
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
-        }
-
+			
+             return redirect('/contacts'); // ubah redirect
+		}
+		//var_dump($next); 
+		//print_r($request->all());
+		//exit;
         return $next($request);
     }
 }

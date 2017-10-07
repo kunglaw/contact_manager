@@ -19,7 +19,10 @@
         <div class="media">
           <div class="media-left">
             <a href="#">
-              <img class="media-object" src="http://placehold.it/100x100" alt="...">
+              <?php $photo = !is_null($row->photo) ? $row->photo : "http://placehold.it/100x100" ?>
+              {!! Html::image("uploads/".$photo,$row['name'],
+              ["class"=>"media-object","width"=>100,"height"=>100]) !!}
+              <!-- <img class="media-object" src="http://placehold.it/100x100" alt="..."> -->
             </a>
           </div>
           <div class="media-body">
@@ -32,14 +35,16 @@
         </div>
       </td>
       <td width="100" class="middle">
+      	{!! Form::open(['method'=>'DELETE','route'=>['contacts.destroy',$row['id']]]) !!}
         <div>
           <a href="<?=route("contacts.edit",["id"=>$row["id"]])?>" class="btn btn-circle btn-default btn-xs" title="Edit">
             <i class="glyphicon glyphicon-edit"></i>
           </a>
-          <a href="#" class="btn btn-circle btn-danger btn-xs" title="Delete">
+          <button type="submit" onclick="return confirm('Are you sure want to delete this contact?')" class="btn btn-circle btn-danger btn-xs" title="Delete">
             <i class="glyphicon glyphicon-remove"></i>
-          </a>
+          </button>
         </div>
+        {!! Form::close() !!}
       </td>
     </tr>
   <?php

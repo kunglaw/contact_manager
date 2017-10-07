@@ -15,7 +15,7 @@ class Contact extends Model
 	protected $primaryKey = 'id'; // Misal kita memakai nama id_kendaraan
 	protected $table = "contacts";
 	
-	protected $fillable = ["group_id","name","email","address","company","phone"];
+	protected $fillable = ["group_id","name","email","address","company","phone","photo"];
 	protected $converter;
     //
 	

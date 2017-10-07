@@ -6,7 +6,7 @@
             <div class="panel-heading">
               <strong>Edit Contact</strong>
             </div>    
-            {!!  Form::open(["url"=>"contacts"]) !!}   
+            {!!  Form::open(["route"=>["contacts.update",$contact->id],"method"=>"PATCH","files"=>true]) !!}   
                         <div class="panel-body">
               <div class="form-horizontal">
               	<?php 
@@ -85,10 +85,14 @@
                   </div>
                   <div class="col-md-4">
                     <div class="fileinput fileinput-new" data-provides="fileinput">
-                      <div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">
-                        <img src="http://placehold.it/150x150" alt="Photo">
-                      </div>
                       
+                      
+                      	<?php $photo = !is_null($contact->photo) ? "uploads/".$contact->photo : "http://placehold.it/100x100" ?>
+						{!! Html::image($photo,$contact->name,
+              			["class"=>"fileinput-new thumbnail","width"=>150,"height"=>150]) !!}
+                        
+                    
+                      <input type="file" name="photo">
                       <!-- <div class="text-center">
                       Change</span><input type="file" name="...">
                         <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> -->

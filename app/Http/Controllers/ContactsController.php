@@ -14,13 +14,22 @@ class ContactsController extends Controller
      * @return \Illuminate\Http\Response
      */
 	//private $objContact; 
+	private $rules = [
+			"name" => ["required","min:5"],
+			"company" => ["required"],
+			"email" => ["required","email"],
+			//"photo"	=> ["mimes:jpg,jpeg,png,gif,bmp"]
+		];
+		
 	 
 	function __construct()
 	{
-		
+		$this->middleware("auth");
 		// load model object
 		$this->objContact = new Contact;	
 		$this->objGroup   = new Group;	
+		
+		
 	}
 	 
     public function index(Request $request) // jangan lupa request
@@ -79,14 +88,24 @@ class ContactsController extends Controller
    public function store(Request $request)
     {
         //
+		$photo = $request->file("photo");
 		
-	 	$rules = [
-			"name" => ["required","min:5"],
-			"company" => ["required"],
-			"email" => ["required","email"]
-		];
+		$data = $request->all();
+		$contact = $this->objContact->find($id);
 		
-		$this->validate($request,$rules); // kalau dia salah , maka OTOMATIS KE REDIRECT KE HALAMAN FORM !!!! 
+		if(!empty($photo))
+		{
+			$email =  $data["email"];
+			$username = explode("@",$email)[0];
+			$ext = $photo->getClientOriginalExtension(); 
+			
+			$destination = base_path("uploads");
+			$filename = $username.".$ext";//$photo->getClientOriginalName();
+			$photo->move($destination,$filename); 
+			$data["photo"] = $filename;  
+		}
+		
+		$this->validate($data,$this->rules); // kalau dia salah , maka OTOMATIS KE REDIRECT KE HALAMAN FORM !!!! 
 		// KALAU BENAR , DIA LOLOS
 		
 		//$a = $request->all();
@@ -144,6 +163,44 @@ class ContactsController extends Controller
     public function update(Request $request, $id)
     {
         //
+		$photo = $request->file("photo");
+		$data = $request->all();
+		$contact = $this->objContact->find($id);
+		
+		if(!empty($photo))
+		{
+			$email =  $contact->email;
+			$username = explode("@",$email)[0];
+			$ext = $photo->getClientOriginalExtension(); 
+			
+			$destination = base_path("uploads");
+			$filename = $username.".$ext";//$photo->getClientOriginalName();
+			$photo->move($destination,$filename); 
+			$data["photo"] = $filename; 
+		}
+		
+		
+		$this->validate($request,$this->rules); // kalau dia salah , maka OTOMATIS KE REDIRECT KE HALAMAN FORM !!!! 
+		// KALAU BENAR , DIA LOLOS
+		
+		//$a = $request->all();
+		//print_r($rules);
+		//print_r($a);  exit;
+		//Contact::create( $request->all());
+		/*
+			array(
+				"nama_field_table" => value,
+				"nama_field_table" => value,
+				"nama_field_table" => value,
+			)
+		
+		*/
+		
+		$contact->update($data);
+		//$this->objContact->fill($request->all());
+		//$this->objContact->save();
+										// session 
+		return redirect("contacts")->with("message","Contact Updated");
     }
 
     /**
@@ -155,5 +212,23 @@ class ContactsController extends Controller
     public function destroy($id)
     {
         //
+		$contact = $this->objContact->find($id);
+		$contact->delete();
+		
+		$this->remove_photo($contact->photo);
+		
+		return redirect("contacts")->with("message","Contact Deleted");
     }
+	
+	function remove_photo($photo)
+	{
+		if(!empty($photo))
+		{
+			if(file_exists(base_path("uploads/".$photo)))
+			{
+				unlink(base_path("uploads/".$photo));
+			}
+			
+		}
+	}
 }
